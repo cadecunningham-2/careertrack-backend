@@ -1,0 +1,19 @@
+# The database now lives on Supabase, so there is no Render database block.
+services:
+  - type: web
+    name: careertrack-api
+    runtime: node
+    region: singapore
+    rootDir: server
+    # --include=dev: TypeScript and @types are devDependencies and are needed to build.
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Paste your Supabase Session pooler URI in the Render dashboard.
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
